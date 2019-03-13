@@ -9,8 +9,10 @@
 namespace App\Controller;
 
 
+use App\Services\CallApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Flex\Response;
 
 class DefaultController extends AbstractController
 {
@@ -19,7 +21,7 @@ class DefaultController extends AbstractController
      * @Route("/")
      */
     public function test(){
-        return $this->json("test");
+        return $this->render("base.html.twig");
     }
 
 }

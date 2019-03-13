@@ -20,7 +20,10 @@ class DefaultController extends AbstractController
     /**
      * @Route("/")
      */
-    public function test(){
+    public function test(CallApiService $apiCall){
+        $baseUrl = "https://swapi.co/api/";
+        $result = $apiCall->CallAPI("GET",$baseUrl."people/");
+        dump($result);
         return $this->render("base.html.twig");
     }
 

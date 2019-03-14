@@ -10,8 +10,15 @@ namespace App\Services;
 
 
 class CallApiService{
+    private $apiUrl;
+    public function __construct($apiUrl)
+    {
+        $this->apiUrl = $apiUrl;
+    }
+
     function CallAPI($method, $url, $data = false)
     {
+        $url = $this->apiUrl.$url;
         $curl = curl_init();
 
         switch ($method)

@@ -18,15 +18,21 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/")
+     * @Route("/collector")
      */
     public function test(CallApiService $apiCall, PersonParser $parser){
-        $result = $apiCall->CallAPI("GET","people/1/");
-        if(null == $result){
-            //throw
-        }
+        $people = [];
+        $url = "https://swapi.co/api/people/";
+
+        do{
+            $result = $apiCall->CallAPI("GET",$url);
+            $people = array_merge($people, $parser->getPeople($result));
+        }while($url = $parser->getNext($result));
+
         $em = $this->getDoctrine()->getManager();
-        $em->persist($parser->create($result));
+        foreach ($people as $person) {
+            $em->persist($person);
+        }
         $em->flush();
         return $this->render("base.html.twig");
     }

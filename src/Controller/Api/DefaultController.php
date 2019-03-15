@@ -54,7 +54,7 @@ class DefaultController extends AbstractController
     public function getPerson(Request $request, SerializerInterface $serializer):View{
         $result = $this->getDoctrine()->getRepository(Person::class)->findOneBy(['name' => $request->get('name')]);
         if(empty($result)){
-            return View::create(null, Response::HTTP_NOT_FOUND);
+            return View::create("", Response::HTTP_NOT_FOUND);
         }
         return View::create($result, Response::HTTP_OK);
     }

@@ -12,10 +12,12 @@ namespace App\Controller\Api;
 use App\Entity\Person;
 use App\Services\CallApiService;
 use App\Services\PersonParser;
+use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class DefaultController extends AbstractController
@@ -49,9 +51,12 @@ class DefaultController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getPerson(Request $request, SerializerInterface $serializer):JsonResponse{
-        $xx = $this->getDoctrine()->getRepository(Person::class)->findOneBy(['name' => $request->get('name')]);
-        return $this->json($xx);
+    public function getPerson(Request $request, SerializerInterface $serializer):View{
+        $result = $this->getDoctrine()->getRepository(Person::class)->findOneBy(['name' => $request->get('name')]);
+        if(empty($result)){
+            return View::create(null, Response::HTTP_NOT_FOUND);
+        }
+        return View::create($result, Response::HTTP_OK);
     }
 
 }

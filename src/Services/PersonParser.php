@@ -28,6 +28,7 @@ class PersonParser
     }
 
     public function create($obj):Person{
+        //TODO::serialize
         $person = new Person();
         $person->setName($obj->name);
         $person->setBirthYear($obj->birth_year);
